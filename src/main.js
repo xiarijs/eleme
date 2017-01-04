@@ -11,7 +11,7 @@ import Seller from 'components/seller/seller';
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
-console.log(store);
+
 const routes = [
   { path: '/goods', component: Goods },
   { path: '/ratings', component: Ratings },
@@ -29,7 +29,6 @@ const app = new Vue({
   template: '<App/>',
   components: {App}
 });
-console.log(app);
 app.$mount('#app');
 
 router.push('/goods');

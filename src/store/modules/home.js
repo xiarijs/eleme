@@ -1,16 +1,23 @@
 /**
  * Created by Administrator on 2017/1/3.
  */
+import Vue from 'vue';
+import VueResource from 'vue-resource';
 import * as types from '../types';
 
+Vue.use(VueResource);
+
+// ajax返回数据判断
+const ERROR_NO = 0;
+
 const state = {
-  seller1: 111,
+  seller: {},
   count: 10
 };
 
 const getters = {
-  seller1: (state) => {
-    return state.seller1;
+  seller: (state) => {
+    return state.seller;
   },
   count: (state) => {
     return state.count;
@@ -25,8 +32,13 @@ const actions = {
 
 const mutations = {
   [types.GETSELLER]: (state) => {
-    console.log(state);
-    console.log('获取seller数据！！！');
+    Vue.http.get('/api/seller').then((response) => {
+      if (response.body.errno === ERROR_NO) {
+        state.seller = response.body.data;
+      }
+      console.log(state.seller);
+      console.log('获取seller数据！！！');
+    });
   }
 };
 
