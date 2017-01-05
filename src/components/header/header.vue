@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <div class="header-wrapper">
+    <div class="content-wrapper">
       <div class="avatar">
         <img :src="seller.avatar" width="64" height="64" alt="">
       </div>
@@ -15,10 +15,20 @@
           <span class="text">{{seller.supports[0].description}}</span>
         </div>
       </div>
-      <div class="supports-count">
-        <span class="num">5个</span>
-        <span class="arry"></span>
+      <div class="supports-count" v-if="seller.supports" @click="changeDetail">
+        <span class="num">{{seller.supports.length}}个</span>
+        <span class="icon-keyboard_arrow_right"></span>
       </div>
+    </div>
+    <div class="bulletin-wrapper" @click="changeDetail">
+      <span class="icon"></span><span class="text">{{seller.bulletin}}</span>
+      <span class="icon-keyboard_arrow_right"></span>
+    </div>
+    <div class="background">
+      <img :src="seller.avatar" width="100%" height="100%" alt="">
+    </div>
+    <div class="detail" v-show="showDetail">
+
     </div>
   </div>
 </template>
@@ -31,21 +41,33 @@
       'count',
       'seller'
     ]),
+    data () {
+      return {
+        showDetail: false
+      };
+    },
     created () {
       this.getseller();
       this.ClassMap = ['decrease', 'discount', 'guarantee', 'invoice', 'special'];
     },
-    methods: mapActions([
-      'getseller'
-    ])
+    methods: {
+      ...mapActions([
+        'getseller'
+      ]),
+      changeDetail () {
+        this.showDetail = true;
+      }
+    }
   };
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
   @import "../../common/scss/mixin.scss";
   .header{
-    background: #000;
-    .header-wrapper{
+    position: relative;
+    color: #fff;
+    background: rgba(7,17,27,0.5);
+    .content-wrapper{
       position: relative;
       padding: 24px 12px 18px 24px;
       font-size: 0;
@@ -62,7 +84,6 @@
       .content{
         display: inline-block;
         margin-left: 16px;
-        color: #fff;
         .title{
           margin: 2px 0 8px;
           .brand{
@@ -118,6 +139,77 @@
           }
         }
       }
+      .supports-count{
+        position: absolute;
+        right: 12px;
+        bottom: 14px;
+        padding: 0 8px;
+        line-height: 24px;
+        font-size: 0;
+        color: #fff;
+        background-color: rgba(0,0,0,0.2);
+        border-radius: 14px;
+        .num{
+          vertical-align: top;
+          font-size: 10px;
+        }
+        .icon-keyboard_arrow_right{
+          margin-left: 2px;
+          font-size: 10px;
+          vertical-align: middle;
+        }
+      }
+    }
+    .bulletin-wrapper{
+      position: relative;
+      height: 28px;
+      padding: 0 22px 0 12px;
+      line-height: 28px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      background: rgba(7,17,27,0.2);
+      .icon{
+        display: inline-block;
+        width: 22px;
+        height: 12px;
+        vertical-align: top;
+        margin-top: 8px;
+        margin-right: 4px;
+        @include bg-image('bulletin');
+        background-size: 22px 12px;
+        background-repeat: no-repeat;
+      }
+      .text{
+        font-size: 12px;
+      }
+      .icon-keyboard_arrow_right{
+        position: absolute;
+        top: 50%;
+        right: 12px;
+        margin-top: -5px;
+        font-size: 12px;
+      }
+    }
+    .background{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      filter: blur(10px);
+      overflow: hidden;
+    }
+    .detail{
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background: rgba(7,17,27,0.8);
     }
   }
 </style>
