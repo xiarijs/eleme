@@ -15,12 +15,12 @@
           <span class="text">{{seller.supports[0].description}}</span>
         </div>
       </div>
-      <div class="supports-count" v-if="seller.supports" @click="changeDetail">
+      <div class="supports-count" v-if="seller.supports" @click="openDetail">
         <span class="num">{{seller.supports.length}}个</span>
         <span class="icon-keyboard_arrow_right"></span>
       </div>
     </div>
-    <div class="bulletin-wrapper" @click="changeDetail">
+    <div class="bulletin-wrapper" @click="openDetail">
       <span class="icon"></span><span class="text">{{seller.bulletin}}</span>
       <span class="icon-keyboard_arrow_right"></span>
     </div>
@@ -28,7 +28,23 @@
       <img :src="seller.avatar" width="100%" height="100%" alt="">
     </div>
     <div class="detail" v-show="showDetail">
-
+      <div class="detail-wrapper clearfix">
+        <div class="detail-main">
+          <h1 class="name">{{seller.name}}</h1>
+          <div class="star-wrapper">
+            <div class="content">
+              <span class="star-item"></span>
+              <span class="star-item"></span>
+              <span class="star-item"></span>
+              <span class="star-item"></span>
+              <span class="star-item"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-close" @click="closeDetail">
+        <span class="icon-close"></span>
+      </div>
     </div>
   </div>
 </template>
@@ -54,8 +70,11 @@
       ...mapActions([
         'getseller'
       ]),
-      changeDetail () {
+      openDetail () {
         this.showDetail = true;
+      },
+      closeDetail () {
+        this.showDetail = false;
       }
     }
   };
@@ -210,6 +229,29 @@
       height: 100%;
       overflow: auto;
       background: rgba(7,17,27,0.8);
+      .detail-wrapper{
+        width: 100%;
+        min-height: 100%;
+        .detail-main{
+          margin-top: 64px;
+          padding-bottom: 64px;
+          .name{
+            margin-bottom: 16px;
+            line-height: 18px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+          }
+        }
+      }
+      .detail-close{
+        position: relative;
+        width: 32px;
+        height:32px;
+        margin: -64px auto 0;
+        font-size: 32px;
+        clear: both;
+      }
     }
   }
 </style>
